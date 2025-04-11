@@ -45,10 +45,7 @@ function App() {
           >Add</button>
         </div>
         <ul className="item-list">
-<<<<<<< HEAD
           {todos.length === 0 && "No items found"}
-=======
->>>>>>> 8c2dc1a83518e14c56fee2773d483f619b200a2b
           {todos.map( todo => {
             return (
               <li key={todo.id}>
