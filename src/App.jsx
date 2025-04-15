@@ -1,18 +1,11 @@
 import { useState } from 'react'
 import './App.css'
+import { NewFormItem } from './newFormItem'
 
 function App() {
-  const [newItem, setnewItem] = useState("")
+  
   const [todos, settodos] = useState([])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (newItem === "") return
-    settodos(prevTodos => {
-      return [...prevTodos, { id: crypto.randomUUID(), title: newItem, completed: false }]
-    })
-    setnewItem("")
-  }
 
   function toggleTodo(id, completed) {
     settodos(prevTodos => {
@@ -31,19 +24,15 @@ function App() {
     })
   }
 
+  function addTodo(title) {
+    settodos(prevTodos => {
+      return [...prevTodos, { id: crypto.randomUUID(), title, completed: false }]
+    })
+  }
+
   return (
     <>
-      <form className="new-item-form">
-        <div className="form-row">
-          <label htmlFor="item">New Item</label>
-          <input type="text" id="item"
-            value={newItem}
-            onChange={e => setnewItem(e.target.value)}
-          />
-          <button type="submit" className="btn btn-primary"
-          onClick={handleSubmit}
-          >Add</button>
-        </div>
+      < NewFormItem passFn = {addTodo} />
         <ul className="item-list">
           {todos.length === 0 && "No items found"}
           {todos.map( todo => {
@@ -62,7 +51,6 @@ function App() {
             )
           })}
         </ul>
-        </form>
     </>
   )
 }
