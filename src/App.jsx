@@ -1,11 +1,17 @@
 import { useState } from 'react'
 import './App.css'
 import { NewFormItem } from './newFormItem'
+import { Todolist } from './Todolist'
 
 function App() {
   
   const [todos, settodos] = useState([])
 
+  function addTodo(title) {
+    settodos(prevTodos => {
+      return [...prevTodos, { id: crypto.randomUUID(), title, completed: false }]
+    })
+  }
 
   function toggleTodo(id, completed) {
     settodos(prevTodos => {
@@ -18,39 +24,16 @@ function App() {
     })
   }
 
-  function deleteItem(id) {
+  function deleteTodoItem(id) {
     settodos(prevTodos => {
       return prevTodos.filter(todo => todo.id !== id)
-    })
-  }
-
-  function addTodo(title) {
-    settodos(prevTodos => {
-      return [...prevTodos, { id: crypto.randomUUID(), title, completed: false }]
     })
   }
 
   return (
     <>
       < NewFormItem passFn = {addTodo} />
-        <ul className="item-list">
-          {todos.length === 0 && "No items found"}
-          {todos.map( todo => {
-            return (
-              <li key={todo.id}>
-                <label>
-                  <input type="checkbox" checked={todo.completed} 
-                  onChange={e => toggleTodo(todo.id, e.target.checked)}/>
-                  {todo.title}
-                </label>
-                <button className="btn btn-danger" 
-                onClick={() => deleteItem(todo.id)}                
-                >Remove
-                </button>
-              </li>
-            )
-          })}
-        </ul>
+      < Todolist todos = {todos} toggleTodo={toggleTodo} deleteTodoItem={deleteTodoItem} />
     </>
   )
 }
