@@ -1,13 +1,13 @@
 import { useState } from "react"
 
-export function NewFormItem(props) { 
+export function NewFormItem({passFn}) { 
 
   const [newItem, setnewItem] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (newItem === "") return
-    props.passFn(newItem)
+    passFn(newItem)
     setnewItem("")
   }
 
